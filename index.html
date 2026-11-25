@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BD3 | Gerenciamento de Alunos</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="header-content">
+
+            <div class="logo">
+                <div class="logo-icon">BD3</div>
+
+                <div>
+                    <h1>Student Manager</h1>
+                    <p>Banco de Dados 3 · NoSQL Firestore</p>
+                </div>
+            </div>
+
+            <div class="status">
+                <span class="status-dot"></span>
+                Firebase conectado
+            </div>
+
+        </div>
+    </header>
+
+    <main class="main">
+
+        <section class="welcome">
+            <div>
+                <span class="tag">SISTEMA ACADÊMICO</span>
+
+                <h2>Gerenciamento de alunos</h2>
+
+                <p>Cadastre, consulte e gerencie os registros acadêmicos.</p>
+            </div>
+        </section>
+
+        <section class="dashboard">
+
+            <div class="stat-card">
+                <div class="stat-icon">01</div>
+
+                <div>
+                    <span class="stat-label">Alunos cadastrados</span>
+                    <h3 id="total-alunos">0</h3>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon purple">02</div>
+
+                <div>
+                    <span class="stat-label">Banco de dados</span>
+                    <h3 class="database-name">Firestore</h3>
+                </div>
+            </div>
+
+        </section>
+
+        <section class="content-grid">
+
+            <!-- FORMULÁRIO -->
+
+            <div class="panel form-panel">
+
+                <div class="panel-header">
+                    <div>
+                        <span class="section-tag">NOVO REGISTRO</span>
+                        <h3>Cadastrar aluno</h3>
+                    </div>
+
+                    <span class="panel-number">01</span>
+                </div>
+
+                <form id="form-aluno">
+
+                    <div class="campo">
+                        <label for="nome">Nome completo</label>
+
+                        <input
+                            type="text"
+                            id="nome"
+                            maxlength="100"
+                            placeholder="Nome do aluno"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-row">
+
+                        <div class="campo">
+                            <label for="cpf">CPF</label>
+
+                            <input
+                                type="text"
+                                id="cpf"
+                                maxlength="14"
+                                placeholder="000.000.000-00"
+                                required
+                            >
+                        </div>
+
+                        <div class="campo">
+                            <label for="rg">RG</label>
+
+                            <input
+                                type="text"
+                                id="rg"
+                                maxlength="12"
+                                placeholder="00.000.000-0"
+                                required
+                            >
+                        </div>
+
+                    </div>
+
+                    <div class="form-row">
+
+                        <div class="campo">
+                            <label for="telefone-aluno">Telefone do aluno</label>
+
+                            <input
+                                type="text"
+                                id="telefone-aluno"
+                                maxlength="15"
+                                placeholder="(00) 00000-0000"
+                                required
+                            >
+                        </div>
+
+                        <div class="campo">
+                            <label for="telefone-responsavel">Telefone responsável</label>
+
+                            <input
+                                type="text"
+                                id="telefone-responsavel"
+                                maxlength="15"
+                                placeholder="(00) 00000-0000"
+                                required
+                            >
+                        </div>
+
+                    </div>
+
+                    <div class="campo">
+                        <label for="email">E-mail</label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            maxlength="100"
+                            placeholder="aluno@email.com"
+                            required
+                        >
+                    </div>
+
+                    <div class="campo">
+                        <label for="data-nascimento">Data de nascimento</label>
+
+                        <input
+                            type="date"
+                            id="data-nascimento"
+                            required
+                        >
+                    </div>
+
+                    <button type="submit" id="btn-cadastrar">
+                        <span>+</span>
+                        Cadastrar aluno
+                    </button>
+
+                    <div id="mensagem" class="mensagem"></div>
+
+                </form>
+
+            </div>
+
+            <!-- LISTAGEM -->
+
+            <div class="panel list-panel">
+
+                <div class="panel-header">
+
+                    <div>
+                        <span class="section-tag">DATABASE</span>
+                        <h3>Alunos registrados</h3>
+                    </div>
+
+                    <span class="panel-number">02</span>
+
+                </div>
+
+                <div class="search-container">
+
+                    <input
+                        type="search"
+                        id="pesquisa"
+                        placeholder="Pesquisar aluno pelo nome..."
+                    >
+
+                    <span class="search-icon">⌕</span>
+
+                </div>
+
+                <div class="table-container">
+
+                    <table>
+
+                        <thead>
+                            <tr>
+                                <th>Aluno</th>
+                                <th>CPF</th>
+                                <th>E-mail</th>
+                                <th>Nascimento</th>
+                                <th>Ação</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="lista-alunos">
+
+                            <tr>
+                                <td colspan="5" class="empty">
+                                    Carregando alunos...
+                                </td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+                <div class="list-footer">
+                    <span id="resultado-pesquisa">Aguardando registros...</span>
+                    <span class="live-indicator">LIVE</span>
+                </div>
+
+            </div>
+
+        </section>
+
+        <footer>
+
+            <p>
+                BD3 - Atividade 4 · Firestore Database
+            </p>
+
+            <p>
+                Desenvolvido para fins acadêmicos
+            </p>
+
+        </footer>
+
+    </main>
+
+    <script type="module" src="js/app.js"></script>
+
+</body>
+
+</html>
